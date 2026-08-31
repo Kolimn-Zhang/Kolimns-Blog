@@ -1,12 +1,12 @@
 ---
-title: obsidian-memory-for-ai — AI 持久记忆协议
+title: memory-for-ai — AI 持久记忆协议
 date: 2026-08-30
 category: skills
 subcategory: 记忆
 summary: 一套给 AI 建立长期记忆的协议和工具，用纯 Markdown 文件存记忆，跨工具共享、可审计、可迁移。
 ---
 
-# obsidian-memory-for-ai
+# memory-for-ai
 
 ## 解决什么问题
 
@@ -50,4 +50,4 @@ tools/query.sh search "开发者"          # 搜包含"开发者"的内容
 
 ## 安装
 
-https://github.com/jrcruciani/obsidian-memory-for-ai
+https://github.com/Kolimn-Zhang/memory-for-ai

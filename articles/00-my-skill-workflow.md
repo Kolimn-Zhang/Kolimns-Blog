@@ -68,11 +68,11 @@ summary: 梳理我注册的全部 17 个 skill 的分工与协作关系——ski
 
 | skill | 作用 |
 |-------|------|
-| `obsidian-memory-for-ai` | 存对话与经验，其他 skill 执行前可查 |
+| `memory-for-ai` | 存对话与经验，其他 skill 执行前可查 |
 
 ## 核心逻辑：记忆贯穿一切
 
-这套体系最特别的一点，是 `obsidian-memory-for-ai` **贯穿所有环节**：
+这套体系最特别的一点，是 `memory-for-ai` **贯穿所有环节**：
 
 - 任何 skill 干活时产生的对话、经验、结论，都可以存进记忆库。
 - **别的 skill 下次执行命令前，可以先查记忆库**，看有没有相关历史经验，避免重复踩坑。
@@ -87,7 +87,7 @@ summary: 梳理我注册的全部 17 个 skill 的分工与协作关系——ski
 3. **设计界面** → 交给 ui-ux-pro-max，给出配色、字体、布局
 4. **写代码** → 写完后交给 code-simplifier 简化、优化
 5. **画架构图** → 需要画图时交给 archify
-6. **全程记忆** → obsidian-memory-for-ai 把设计决策、踩的坑存起来
+6. **全程记忆** → memory-for-ai 把设计决策、踩的坑存起来
 
 下次再做类似的网站，相关 skill 会**先查记忆库**，直接复用上次经验。
 
@@ -102,6 +102,6 @@ summary: 梳理我注册的全部 17 个 skill 的分工与协作关系——ski
 | 简化 | code-simplifier | 代码更干净 |
 | 工具 | archify / git-manager | 画图、管版本 |
 | 执行 | docx/pdf/xlsx/pptx/浏览器/多模态 | 具体干活 |
-| 记忆 | obsidian-memory-for-ai | 沉淀经验、供复用 |
+| 记忆 | memory-for-ai | 沉淀经验、供复用 |
 
 一句话：**gateway 是入口，superpowers 定方向，ui 管好看，simplifier 管代码质量，obsidian 管记忆，让整个体系越用越聪明。**
