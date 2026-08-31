@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Kolimn's Blog{% endblock %}
+{% block content %}
+<section class="hero">
+    <span class="hero-eyebrow">Personal AI Notes</span>
+    <h1>Kolimn's<br>Blog</h1>
+    <p class="hero-sub">记录 AI 工具、Skills 与 Agent 的实践笔记，从 Claude Code 使用经验到常用工具沉淀，把踩过的坑变成可复用的方法。</p>
+    <div class="hero-rule"></div>
+</section>
+
+<div class="category-grid">
+    {% for cat in categories %}
+    <section class="category-card">
+        <a href="{{ url_for('category', slug=cat.slug) }}" class="category-head">
+            <h2>{{ cat.name }}</h2>
+            <span class="category-count">{{ cat.articles|length }}</span>
+        </a>
+        <p class="category-desc">{{ cat.description }}</p>
+        {% if not cat.articles %}
+        <p class="category-empty">暂无文章</p>
+        {% elif cat.has_sub %}
+        <div class="card-subgroups">
+            {% for group in cat.groups %}
+            {% if group.name %}
+            <div class="card-subgroup">
+                <span class="card-subgroup-title">{{ group.name }}</span>
+                <ul class="category-articles">
+                    {% for slug, meta in group.articles %}
+                    <li>
+                        <a href="{{ url_for('article', slug=slug) }}">{{ meta.title }}</a>
+                        {% if meta.date %}<span class="category-date">{{ meta.date }}</span>{% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <ul class="category-articles">
+            {% for slug, meta in cat.articles %}
+            <li>
+                <a href="{{ url_for('article', slug=slug) }}">{{ meta.title }}</a>
+                {% if meta.date %}<span class="category-date">{{ meta.date }}</span>{% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <a href="{{ url_for('category', slug=cat.slug) }}" class="category-more">查看全部 →</a>
+    </section>
+    {% endfor %}
+</div>
+{% endblock %}

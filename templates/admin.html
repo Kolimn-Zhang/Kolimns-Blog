@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}后台管理 · Kolimn's Blog{% endblock %}
+{% block content %}
+<div class="admin-header">
+    <h1>后台管理</h1>
+    <a href="{{ url_for('admin_new') }}" class="btn">+ 新建文章</a>
+</div>
+
+{% if edit_slug or edit_mode == 'new' %}
+<div class="admin-form">
+    <h2>{% if edit_mode == 'new' %}新建文章{% else %}编辑文章{% endif %}</h2>
+    <form method="post">
+        <div class="form-group">
+            <label for="title">标题</label>
+            <input type="text" name="title" id="title" value="{{ edit_meta.title if edit_meta else '' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="summary">摘要</label>
+            <input type="text" name="summary" id="summary" value="{{ edit_meta.summary if edit_meta else '' }}">
+        </div>
+        <div class="form-group">
+            <label for="category">分类</label>
+            <select name="category" id="category">
+                {% for c in categories %}
+                <option value="{{ c.slug }}" {% if edit_meta and edit_meta.category == c.slug %}selected{% endif %}>{{ c.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="content">Markdown 内容</label>
+            <textarea name="content" id="content" rows="20" required>{{ edit_content }}</textarea>
+        </div>
+        <button type="submit" class="btn">保存</button>
+        <a href="{{ url_for('admin') }}" class="btn btn-secondary">取消</a>
+    </form>
+</div>
+{% endif %}
+
+<table class="admin-table">
+    <thead>
+        <tr>
+            <th>标题</th>
+            <th>日期</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for slug, meta in articles %}
+        <tr>
+            <td><a href="{{ url_for('article', slug=slug) }}">{{ meta.title }}</a></td>
+            <td>{{ meta.date }}</td>
+            <td class="actions">
+                <a href="{{ url_for('admin_edit', slug=slug) }}" class="btn btn-small btn-secondary">编辑</a>
+                <form method="post" action="{{ url_for('admin_delete', slug=slug) }}">
+                    <button type="submit" class="btn btn-small btn-danger" onclick="return confirm('确认删除?')">删除</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

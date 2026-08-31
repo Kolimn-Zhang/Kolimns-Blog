@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Kolimn's Blog{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        (function () {
+            const saved = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = saved || (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('index') }}" class="logo">Kolimn<span class="accent">'s</span> Blog</a>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}" {% if request.endpoint == 'index' %}class="active"{% endif %}>首页</a>
+                {% for c in nav_categories %}
+                <a href="{{ url_for('category', slug=c.slug) }}" {% if request.endpoint == 'category' and request.view_args and request.view_args.get('slug') == c.slug %}class="active"{% endif %}>{{ c.name }}</a>
+                {% endfor %}
+                <a href="{{ url_for('admin') }}" {% if request.endpoint and request.endpoint.startswith('admin') %}class="active"{% endif %}>管理</a>
+                <button class="theme-toggle" id="themeToggle" aria-label="切换主题" title="切换明暗主题">
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="content-shell">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Kolimn's Blog — 个人 AI 实践笔记</p>
+            <p class="mark">记录 · 沉淀 · 复用</p>
+        </div>
+    </footer>
+
+    <script>
+        (function () {
+            const btn = document.getElementById('themeToggle');
+            const sun = btn.querySelector('.icon-sun');
+            const moon = btn.querySelector('.icon-moon');
+            function syncIcons() {
+                const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+                sun.style.display = dark ? 'none' : 'block';
+                moon.style.display = dark ? 'block' : 'none';
+            }
+            syncIcons();
+            btn.addEventListener('click', function () {
+                const cur = document.documentElement.getAttribute('data-theme');
+                const next = cur === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', next);
+                localStorage.setItem('theme', next);
+                syncIcons();
+            });
+        })();
+    </script>
+</body>
+</html>
