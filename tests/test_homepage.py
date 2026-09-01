@@ -38,6 +38,12 @@ class HomepageTests(unittest.TestCase):
         html = response.data.decode("utf-8")
         self.assertEqual(html.count('class="home-note-card"'), 2)
 
+    def test_nav_has_blog_link(self):
+        response = self.client.get("/")
+        html = response.data.decode("utf-8")
+        self.assertIn('href="/blog"', html)
+        self.assertIn(">Blog<", html)
+
 
 if __name__ == "__main__":
     unittest.main()
