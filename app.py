@@ -11,7 +11,7 @@ ARTICLES_DIR = os.path.join(os.path.dirname(__file__), 'articles')
 CATEGORIES = [
     {"slug": "claude-code", "name": "Claude Code", "description": "Claude Code 使用经验与相关资源"},
     {"slug": "skills", "name": "Skills", "description": "常用的 Skills 介绍"},
-    {"slug": "tools", "name": "Tools for AI", "description": "AI 工具介绍"},
+    {"slug": "tools", "name": "Tools", "description": "实用工具与效率工具介绍"},
     {"slug": "agent", "name": "Agent", "description": "AI 协作业面与 Agent"},
 ]
 
