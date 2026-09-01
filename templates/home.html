@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Kolimn · Personal Home{% endblock %}
+{% block content %}
+<section class="home-page">
+    <div class="home-grid-bg" aria-hidden="true"></div>
+
+    <section class="home-hero">
+        <div class="home-hero-copy">
+            <span class="hero-eyebrow">Personal Gateway</span>
+            <h1>{{ profile.name }}</h1>
+            <p class="home-role">{{ profile.role }}</p>
+            <p class="home-intro">{{ profile.intro }}</p>
+            <div class="home-actions" aria-label="快速入口">
+                {% for link in profile.quick_links %}
+                <a class="home-action" href="{{ link.url }}" {% if link.external %}target="_blank" rel="noopener noreferrer"{% endif %}>{{ link.label }}</a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <aside class="home-terminal" aria-label="个人状态终端卡片">
+            <div class="terminal-head">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="terminal-body">
+                {% for command, output in profile.terminal_lines %}
+                <p><span class="terminal-prompt">$</span> {{ command }}</p>
+                <p class="terminal-output">{{ output }}</p>
+                {% endfor %}
+                <p><span class="terminal-prompt">$</span> latest</p>
+                <p class="terminal-output">{{ random_notes|length }} random notes loaded</p>
+            </div>
+        </aside>
+    </section>
+
+    <section class="home-section">
+        <div class="home-section-head">
+            <span class="hero-eyebrow">Current Focus</span>
+            <h2>当前关注</h2>
+        </div>
+        <div class="home-focus-grid">
+            {% for item in profile.focus_items %}
+            <article class="home-focus-card">
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.summary }}</p>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="home-section">
+        <div class="home-section-head">
+            <span class="hero-eyebrow">Random Notes</span>
+            <h2>随机文章</h2>
+            <p>每次刷新随机展示两篇现有笔记。</p>
+        </div>
+        <div class="home-notes-grid">
+            {% for slug, meta in random_notes %}
+            <a class="home-note-card" href="{{ url_for('article', slug=slug) }}">
+                <span class="home-note-category">{{ meta.category }}</span>
+                <h3>{{ meta.title }}</h3>
+                {% if meta.summary %}<p>{{ meta.summary }}</p>{% endif %}
+                {% if meta.date %}<span class="home-note-date">{{ meta.date }}</span>{% endif %}
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <footer class="home-signature">{{ profile.footer_note }}</footer>
+</section>
+{% endblock %}

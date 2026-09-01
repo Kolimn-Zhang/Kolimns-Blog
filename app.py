@@ -1,8 +1,10 @@
 import os
 import re
+import random
 import markdown
 import yaml
 from flask import Flask, render_template, request, redirect, url_for
+from home_config import HOME_PROFILE
 
 app = Flask(__name__)
 ARTICLES_DIR = os.path.join(os.path.dirname(__file__), 'articles')
@@ -91,16 +93,32 @@ def get_all_articles():
     return articles
 
 
-@app.route('/')
-def index():
+def build_category_cards():
     categories = []
     for c in CATEGORIES:
         arts = get_articles_by_category(c['slug'])
         groups = group_by_subcategory(arts)
-        # 是否有具名子分类（只有 skills 有，其余分类无 subcategory）
         has_sub = any(g['name'] for g in groups)
         categories.append({**c, 'articles': arts, 'groups': groups, 'has_sub': has_sub})
-    return render_template('index.html', categories=categories)
+    return categories
+
+
+def get_random_articles(limit=2):
+    articles = get_all_articles()
+    if len(articles) <= limit:
+        return articles
+    return random.sample(articles, limit)
+
+
+@app.route('/')
+def index():
+    random_notes = get_random_articles(limit=2)
+    return render_template('home.html', profile=HOME_PROFILE, random_notes=random_notes)
+
+
+@app.route('/blog')
+def blog():
+    return render_template('index.html', categories=build_category_cards())
 
 
 @app.route('/category/<slug>')
